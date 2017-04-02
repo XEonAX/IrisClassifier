@@ -8,7 +8,6 @@ namespace IrisClassifier
 {
     class Logic
     {
-
         internal List<Iris> Parse(string[] irisLines)
         {
             List<Iris> datalist = new List<Iris>();
@@ -16,6 +15,7 @@ namespace IrisClassifier
             {
                 string[] iriscsv = irisLines[i].Split(',');
                 Iris irisData = new Iris();
+
 
                 irisData.Sizes[(int)eSizes.SepalLength] = Convert.ToSingle(iriscsv[0]);
                 irisData.Sizes[(int)eSizes.SepalWidth] = Convert.ToSingle(iriscsv[1]);
@@ -42,6 +42,7 @@ namespace IrisClassifier
 
             return datalist;
         }
+
         double[,] P = new double[3, 4];
         double[] PClass = new double[3];
         internal void Test(List<Iris> data)
@@ -57,17 +58,17 @@ namespace IrisClassifier
                     PClass[(int)species] = 1;
                     foreach (eSizes size in Sizes)
                     {
-                        P[(int)iris.Species, (int)size] = Gaussian_Distribution(iris.Sizes[(int)size], Means[(int)species, (int)size], SumOfSquaredDeltas[(int)species, (int)size]);
-                        Console.WriteLine("P " + iris.Species + " " + size + ":" +P[(int)iris.Species, (int)size]);
-                        PClass[(int)species] *= P[(int)iris.Species, (int)size];
+                        P[(int)species, (int)size] = Gaussian_Distribution(iris.Sizes[(int)size], Means[(int)species, (int)size], StdDev[(int)species, (int)size]);
+                        //Console.WriteLine("P " + species + " " + size + ":" +P[(int)species, (int)size]);
+                        PClass[(int)species] *= P[(int)species, (int)size];
                     }
-                    PClass[(int)species] = Math.Round(PClass[(int)species], 4);
+                    PClass[(int)species] = PClass[(int)species];
                 }
                 var PList = PClass.ToList();
 
                 foreach (eSpecies species in Species)
                 {
-                    if (PList.Min() == PClass[(int)species])
+                    if (PList.Max() == PClass[(int)species])
                     {
                         iris.PredictedSpecies = species;
                         Console.WriteLine("Actual:\t" + iris.Species.ToString() + "\tPredicted:\t" + iris.PredictedSpecies.ToString());
@@ -205,7 +206,7 @@ namespace IrisClassifier
                 Console.Write(species.ToString());
                 foreach (eSizes size in Sizes)
                 {
-                    Console.Write("," + SumOfSquaredDeltas[(int)species, (int)size].ToString());
+                    Console.Write("," + StdDev[(int)species, (int)size].ToString());
                 }
             }
             Console.WriteLine();
@@ -230,15 +231,7 @@ namespace IrisClassifier
             //double result = numerator / denominator;
             //return Math.Round(result, 4);
             //return Math.Round((Math.Exp( (Math.Pow(mean - value, 2)) / (2 * variance)) / Math.Sqrt(2 * Math.PI * variance)), 4);
-            return Math.Round((Math.Exp(-(Math.Pow(value - mean, 2)) / (2 * stdev * stdev)) / Math.Sqrt(2 * Math.PI * stdev * stdev)), 4);
-        }
-
-        public  double Gaussianc_Distribution(double x, double mean, double standard_dev)
-        {
-            double fact = standard_dev * Math.Sqrt(2.0 * Math.PI);
-            double expo = (x - mean) * (x - mean) / (2.0 * standard_dev * standard_dev);
-            var res= Math.Exp(-expo) / fact;
-            return res;
+            return (Math.Exp(-((value - mean) * (value - mean)) / (2 * stdev * stdev)) / Math.Sqrt(2 * Math.PI * stdev * stdev));
         }
     }
 }
