@@ -8,25 +8,14 @@ namespace IrisClassifier
 {
     class Iris
     {
-        public float[] Sizes { get; internal set; }
+        public double[] Sizes { get; internal set; }
         public eSpecies Species { get; internal set; }
         public eSpecies? PredictedSpecies { get; internal set; }
         public Iris()
         {
-            Sizes = new float[4];
+            Sizes = new double[4];
         }
     }
 
 
-    enum eSpecies
-    {
-        setosa,
-        versicolor,
-        virginica,
-    }
-
-    enum eSizes
-    {
-        SepalLength, SepalWidth, PetalLength, PetalWidth
-    }
 }

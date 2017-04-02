@@ -11,13 +11,25 @@ namespace IrisClassifier
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("ML Assignment for Iris Data Classification by Sumant Vanage, 2015HT13005");
             Console.WriteLine(@"Attempting to read ""iris.csv""");
             string[] irisLines = File.ReadAllLines("iris.csv");
+            Console.WriteLine(@"Read Successful.");
             Logic logic = new Logic();
+            Console.WriteLine();
+            Console.WriteLine(@"Try Parsing Iris data");
             List<Iris> data = logic.Parse(irisLines);
             Console.WriteLine(@"Parse successful.");
+            Console.WriteLine();
+            Console.WriteLine(@"Start Training.");
             logic.Train(data);
+            Console.WriteLine(@"Train successful.");
+            Console.WriteLine();
+            Console.WriteLine(@"Start Prediction.");
             logic.Test(data);
+            Console.WriteLine(@"Prediction ended.");
+
+            Console.WriteLine(@"Press ""Enter"" to exit.");
             Console.ReadLine();
         }
     }
