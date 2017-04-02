@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace IrisClassifier
 {
-    class Iris
+    class DataItem
     {
-        public double[] Sizes { get; internal set; }
-        public eSpecies Species { get; internal set; }
-        public eSpecies? PredictedSpecies { get; internal set; }
-        public Iris()
+        public double[] Attributes { get; internal set; }
+        public int Class { get; internal set; }
+        public int PredictedClass { get; internal set; }
+        public DataItem(int AttributeCount)
         {
-            Sizes = new double[4];
+            Attributes = new double[AttributeCount];
+            PredictedClass = -1;
         }
     }
 
